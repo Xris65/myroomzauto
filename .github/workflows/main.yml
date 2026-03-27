@@ -2,7 +2,7 @@ name: Script Quotidien 8h
 
 on:
   schedule:
-    - cron: '*/5 * * * *' #cron: '0 7 * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
