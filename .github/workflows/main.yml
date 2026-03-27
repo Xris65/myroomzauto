@@ -28,4 +28,4 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           MY_API_KEY: ${{ vars.MY_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
-        run: python script.py
+        run: python auto_reservation.py
