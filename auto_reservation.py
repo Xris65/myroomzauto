@@ -11,9 +11,6 @@ repo = os.getenv('GITHUB_REPOSITORY')
 floor_id = os.getenv('FLOOR_ID')
 workspace_id = os.getenv('WORKSPACE_ID')
 
-print("floor id : " + str(floor_id))
-print("workspace id : " + str(workspace_id))
-
 def update_github_variable(name, value):
     url = f"https://api.github.com/repos/{repo}/actions/variables/{name}"
     headers = {
@@ -21,9 +18,7 @@ def update_github_variable(name, value):
         "Accept": "application/vnd.github.v3+json"
     }
     data = {"name": name, "value": str(value)}
-    
     response = requests.patch(url, json=data, headers=headers)
-    
     if response.status_code == 204:
         print(f"✅ Variable {name} mise à jour avec succès !")
     else:
@@ -39,7 +34,6 @@ def refresh_my_token():
         "scope": "openid profile email identityServer-api my-roomz-api offline_access"
     }
     response = requests.post(url, data=data)
-    print(response.json())
     update_github_variable(var_name, response.json().get("refresh_token"))
     return response.json().get("access_token")
 
