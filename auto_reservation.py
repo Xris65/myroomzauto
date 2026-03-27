@@ -1,5 +1,4 @@
 import requests
-import sys
 from datetime import datetime, timedelta
 import os
 
@@ -11,6 +10,9 @@ repo = os.getenv('Xris65/myroomzauto') # Format: "pseudo/nom-du-depot"
 #specific myroomz
 floor_id = os.getenv('FLOOR_ID')
 workspace_id = os.getenv('WORKSPACE_ID')
+
+print("floor id : " + floor_id)
+print("workspace id : " + workspace_id)
 
 def update_github_variable(name, value):
     url = f"https://api.github.com/repos/{repo}/actions/variables/{name}"
@@ -27,7 +29,6 @@ def update_github_variable(name, value):
     else:
         print(f"❌ Erreur {response.status_code}: {response.text}")
 
-# Utilisation dans ton script
 def refresh_my_token():
     global old_refresh_token
     url = "https://login.roomz.io/connect/token"
@@ -42,25 +43,8 @@ def refresh_my_token():
     update_github_variable(var_name, response.json().get("refresh_token"))
     return response.json().get("access_token")
 
-
-def update_script_variable(new_value):
-    path = sys.argv[0]
-    with open(path, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-        
-    with open(path, 'w', encoding='utf-8') as f:
-        for line in lines:
-            if line.startswith('old_refresh_token ='):
-                f.write(f'old_refresh_token = "{new_value}"\n')
-            else:
-                f.write(line)
-
-
-
 def est_deja_reserve(date, token):
-    # L'URL reste la même, mais on change la méthode
     url = f"https://api.my.roomz.io/floors/{floor_id}/workspaces/calendars?length=100&offset=0"
-    # Le payload exact que tu m'as montré
     payload = {
         "availableWorkspaceOnly": False,
         "date": date,
