@@ -3,9 +3,31 @@ import sys
 from datetime import datetime, timedelta
 import os
 
-old_refresh_token = os.getenv('MY_API_KEY')
-old_refresh_token = "" #TODO
+var_name = "MY_API_KEY"
+old_refresh_token = os.getenv(var_name)
+token = os.getenv('GH_PAT')
+repo = os.getenv('Xris65/myroomzauto') # Format: "pseudo/nom-du-depot"
 
+#specific myroomz
+floor_id = os.getenv('FLOOR_ID')
+workspace_id = os.getenv('WORKSPACE_ID')
+
+def update_github_variable(name, value):
+    url = f"https://api.github.com/repos/{repo}/actions/variables/{name}"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    data = {"name": name, "value": str(value)}
+    
+    response = requests.patch(url, json=data, headers=headers)
+    
+    if response.status_code == 204:
+        print(f"✅ Variable {name} mise à jour avec succès !")
+    else:
+        print(f"❌ Erreur {response.status_code}: {response.text}")
+
+# Utilisation dans ton script
 def refresh_my_token():
     global old_refresh_token
     url = "https://login.roomz.io/connect/token"
@@ -17,7 +39,7 @@ def refresh_my_token():
     }
     response = requests.post(url, data=data)
     print(response.json())
-    update_script_variable(response.json().get("refresh_token"))
+    update_github_variable(var_name, response.json().get("refresh_token"))
     return response.json().get("access_token")
 
 
@@ -37,7 +59,6 @@ def update_script_variable(new_value):
 
 def est_deja_reserve(date, token):
     # L'URL reste la même, mais on change la méthode
-    floor_id = "" # TODO: changer
     url = f"https://api.my.roomz.io/floors/{floor_id}/workspaces/calendars?length=100&offset=0"
     # Le payload exact que tu m'as montré
     payload = {
@@ -57,9 +78,8 @@ def est_deja_reserve(date, token):
         response = requests.post(url, headers=headers, json=payload)
         if response.status_code == 200:
             data = response.json().get("data", [])
-            mon_bureau_id = "" # TODO
             for ws in data:
-                if ws.get("workspaceId") == mon_bureau_id:
+                if ws.get("workspaceId") == workspace_id:
                     status = ws.get("status")
                     return status != "Available"
             return False
@@ -99,7 +119,7 @@ def reserver_avec_token(date, token):
         "Referer": "https://my.roomz.io/"
     }
     payload = {
-        "workspaceId": "", #TODO
+        "workspaceId": workspace_id,
         "localDate": date,
         "timeSlot": "FullDay",
     }
