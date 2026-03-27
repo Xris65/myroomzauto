@@ -11,8 +11,8 @@ repo = os.getenv('Xris65/myroomzauto') # Format: "pseudo/nom-du-depot"
 floor_id = os.getenv('FLOOR_ID')
 workspace_id = os.getenv('WORKSPACE_ID')
 
-print("floor id : " + floor_id)
-print("workspace id : " + workspace_id)
+print("floor id : " + str(floor_id))
+print("workspace id : " + str(workspace_id))
 
 def update_github_variable(name, value):
     url = f"https://api.github.com/repos/{repo}/actions/variables/{name}"
