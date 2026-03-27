@@ -5,7 +5,7 @@ import os
 var_name = "MY_API_KEY"
 old_refresh_token = os.getenv(var_name)
 token = os.getenv('GH_PAT')
-repo = os.getenv('Xris65/myroomzauto') # Format: "pseudo/nom-du-depot"
+repo = os.getenv('GITHUB_REPOSITORY')
 
 #specific myroomz
 floor_id = os.getenv('FLOOR_ID')
