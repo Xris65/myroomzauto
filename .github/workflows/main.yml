@@ -28,4 +28,6 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
           MY_API_KEY: ${{ vars.MY_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          FLOOR_ID: ${{ vars.FLOOR_ID }}
+          WORKSPACE_ID: ${{ vars.WORKSPACE_ID }}
         run: python auto_reservation.py
