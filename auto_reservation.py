@@ -1,5 +1,7 @@
 import requests
 from datetime import datetime, timedelta
+from nacl import encoding, public
+from base64 import b64encode
 import os
 
 var_name = "MY_API_KEY"
