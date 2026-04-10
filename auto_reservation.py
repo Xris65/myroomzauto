@@ -27,6 +27,7 @@ def update_github_variable(name, value):
         print(f"❌ Erreur {response.status_code}: {response.text}")
 
 def update_github_secret(name, value): 
+    # On récupère la clé de chiffrement
     pub_key_url = f"https://api.github.com/repos/{repo}/actions/secrets/public-key"
     headers = {
         "Authorization": f"token {token}",
@@ -38,21 +39,18 @@ def update_github_secret(name, value):
     public_key = key_data['key']
     key_id = key_data['key_id']
 
-    # 2. Chiffrer la valeur du secret
     # Fonction de chiffrement standard pour GitHub
     public_key_obj = public.PublicKey(public_key.encode("utf-8"), encoding.Base64Encoder)
     sealed_box = public.SealedBox(public_key_obj)
     encrypted_value = b64encode(sealed_box.encrypt(value.encode("utf-8"))).decode("utf-8")
 
-    # 3. Envoyer le secret mis à jour
+    # On maj le secret
     url = f"https://api.github.com/repos/{repo}/actions/secrets/{name}"
     data = {
         "encrypted_value": encrypted_value,
         "key_id": key_id
     }
-    
     response = requests.put(url, json=data, headers=headers)
-    
     if response.status_code in [201, 204]:
         print(f"✅ Secret {name} mis à jour avec succès !")
     else:
@@ -68,7 +66,6 @@ def refresh_my_token():
         "scope": "openid profile email identityServer-api my-roomz-api offline_access"
     }
     response = requests.post(url, data=data)
-    print(response.json())
     update_github_secret(var_name, response.json().get("refresh_token"))
     return response.json().get("access_token")
 
