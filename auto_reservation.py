@@ -68,6 +68,7 @@ def refresh_my_token():
         "scope": "openid profile email identityServer-api my-roomz-api offline_access"
     }
     response = requests.post(url, data=data)
+    print(response.json())
     update_github_secret(var_name, response.json().get("refresh_token"))
     return response.json().get("access_token")
 
