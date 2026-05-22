@@ -26,14 +26,14 @@ Pour configurer le projet, ajoute les variables suivantes dans tes **GitHub Secr
 Assure-toi que ton script pointe correctement vers ton dépôt pour permettre la mise à jour des secrets. Il faudrait mettre à jour la ligne suivante dans le script **auto_reservation.py** :
 ```python
 repo = "Xris65/myroomzauto" # Format: "pseudo/nom-du-depot"
-
+```
 ### 2. Planification (.github/workflows/main.yml)
 Modifie la section cron (utiliser [crowntab guru](https://crontab.guru) si pas habitué avec les cron) dans ton workflow pour définir la fréquence d'exécution (en heure UTC) :
-
+```yaml
 on:
   schedule:
     - cron: '0 6 * * *' # Exemple : tous les jours à 06h00 UTC
-
+```
 ## 🔒 Sécurité
 Ce dépôt manipule des clés d'accès et un jeton GitHub (`GH_PAT`) ayant des droits d'écriture sur tes secrets. 
 * **Utiliser des secrets** : Bien faire attention à utiliser des secrets et non pas des variables !
