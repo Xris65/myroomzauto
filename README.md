@@ -28,7 +28,7 @@ Assure-toi que ton script pointe correctement vers ton dépôt pour permettre la
 repo = "Xris65/myroomzauto" # Format: "pseudo/nom-du-depot"
 ```
 ### 2. Planification (.github/workflows/main.yml)
-Modifie la section cron (utiliser [crowntab guru](https://crontab.guru) si pas habitué avec les cron) dans ton workflow pour définir la fréquence d'exécution (en heure UTC) :
+Modifie la section cron (utiliser [crontab guru](https://crontab.guru) si pas habitué avec les cron) dans ton workflow pour définir la fréquence d'exécution (en heure UTC) :
 ```yaml
 on:
   schedule:
