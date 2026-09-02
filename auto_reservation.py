@@ -102,7 +102,7 @@ def est_deja_reserve(date, token):
     
 def verifier_et_reserver_prochains_jours():
     token = refresh_my_token()
-    jours_sur_site = [0, 2, 3] # Lundi, Mercredi, Jeudi
+    jours_sur_site = [1, 3] # Mardi, Jeudi
     
     for i in range(1, 14):
         date_cible = datetime.now() + timedelta(days=i)
